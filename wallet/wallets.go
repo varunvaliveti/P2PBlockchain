@@ -25,7 +25,7 @@ func CreateWallets() (*Wallets, error) {
 	return &wallets, err
 }
 
-func (ws Wallets) GetWallets(address string) Wallet {
+func (ws Wallets) GetWallet(address string) Wallet {
 	return *ws.Wallets[address]
 }
 
