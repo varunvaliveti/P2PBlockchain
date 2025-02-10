@@ -2,6 +2,7 @@ package blockchain
 
 import (
 	"bytes"
+	"encoding/gob"
 
 	"github.com/varunvaliveti/P2PBlockchain/wallet"
 )
@@ -29,6 +30,23 @@ func NewTXOutput(value int, address string) *TxOutput {
 	return txo
 }
 
+func (outs TxOutputs) Serialize() []byte {
+	var buffer bytes.Buffer
+	encode := gob.NewEncoder(&buffer)
+	err := encode.Encode(outs)
+	Handle(err)
+	return buffer.Bytes()
+}
+
+func DeserializeOutputs(data []byte) TxOutputs {
+	var outputs TxOutputs
+
+	decode := gob.NewDecoder(bytes.NewReader(data))
+	err := decode.Decode(&outputs)
+	Handle(err)
+
+	return outputs
+}
 func (in *TxInput) UsesKey(pubKeyHash []byte) bool {
 	lockingHash := wallet.PublicKeyHash(in.PubKey)
 
