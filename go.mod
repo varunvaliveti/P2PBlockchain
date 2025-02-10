@@ -1,16 +1,18 @@
 module github.com/varunvaliveti/P2PBlockchain
 
-go 1.23.2
-
-require github.com/dgraph-io/badger v1.5.4
+go 1.18
 
 require (
-	github.com/AndreasBriese/bbloom v0.0.0-20190825152654-46b345b51c96 // indirect
-	github.com/dgryski/go-farm v0.0.0-20240924180020-3414d57e47da // indirect
-	github.com/golang/protobuf v1.5.4 // indirect
-	github.com/pkg/errors v0.9.1 // indirect
-	github.com/stretchr/testify v1.10.0 // indirect
-	golang.org/x/net v0.34.0 // indirect
+	github.com/dgraph-io/badger v1.5.4
+	github.com/mr-tron/base58 v1.1.0
+	golang.org/x/crypto v0.0.0-20181030102418-4d3f4d9ffa16
+)
+
+require (
+	github.com/AndreasBriese/bbloom v0.0.0-20180913140656-343706a395b7 // indirect
+	github.com/dgryski/go-farm v0.0.0-20180109070241-2de33835d102 // indirect
+	github.com/golang/protobuf v1.2.0 // indirect
+	github.com/pkg/errors v0.8.0 // indirect
+	golang.org/x/net v0.0.0-20181023162649-9b4f9f5ad519 // indirect
 	golang.org/x/sys v0.30.0 // indirect
-	google.golang.org/protobuf v1.33.0 // indirect
 )
