@@ -2,7 +2,6 @@ package blockchain
 
 import (
 	"bytes"
-	"crypto/sha256"
 	"encoding/gob"
 	"log"
 )
@@ -12,6 +11,17 @@ type Block struct {
 	Transactions []*Transaction
 	PrevHash     []byte
 	Nonce        int
+}
+
+func (b *Block) HashTransactions() []byte {
+	var txHashes [][]byte
+
+	for _, tx := range b.Transactions {
+		txHashes = append(txHashes, tx.Serialize())
+	}
+	tree := NewMerkleTree(txHashes)
+
+	return tree.RootNode.Data
 }
 
 func CreateBlock(txs []*Transaction, prevHash []byte) *Block {
@@ -25,24 +35,9 @@ func CreateBlock(txs []*Transaction, prevHash []byte) *Block {
 	return block
 }
 
-func (b *Block) HashTransactions() []byte {
-	var txHashes [][]byte
-	var txHash [32]byte
-
-	for _, tx := range b.Transactions {
-		txHashes = append(txHashes, tx.ID)
-	}
-
-	txHash = sha256.Sum256(bytes.Join(txHashes, []byte{}))
-
-	return txHash[:]
-}
-
 func Genesis(coinbase *Transaction) *Block {
 	return CreateBlock([]*Transaction{coinbase}, []byte{})
 }
-
-//the db badger db only uses bytes so we need to searalize it
 
 func (b *Block) Serialize() []byte {
 	var res bytes.Buffer
@@ -55,7 +50,6 @@ func (b *Block) Serialize() []byte {
 	return res.Bytes()
 }
 
-// accessing the data from badgerdb, we need to
 func Deserialize(data []byte) *Block {
 	var block Block
 

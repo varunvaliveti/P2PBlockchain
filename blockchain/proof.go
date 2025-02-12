@@ -48,16 +48,6 @@ func (pow *ProofOfWork) InitData(nonce int) []byte {
 	return data
 }
 
-func ToHex(num int64) []byte {
-	buff := new(bytes.Buffer)
-	err := binary.Write(buff, binary.BigEndian, num)
-	if err != nil {
-		log.Panic(err)
-	}
-
-	return buff.Bytes()
-}
-
 func (pow *ProofOfWork) Run() (int, []byte) {
 	var intHash big.Int
 	var hash [32]byte
@@ -76,12 +66,11 @@ func (pow *ProofOfWork) Run() (int, []byte) {
 		} else {
 			nonce++
 		}
-	}
 
+	}
 	fmt.Println()
 
 	return nonce, hash[:]
-
 }
 
 // Validate is like pretty much saying
@@ -94,9 +83,18 @@ func (pow *ProofOfWork) Validate() bool {
 	data := pow.InitData(pow.Block.Nonce)
 
 	hash := sha256.Sum256(data)
-
 	intHash.SetBytes(hash[:])
 
 	return intHash.Cmp(pow.Target) == -1
+}
 
+func ToHex(num int64) []byte {
+	buff := new(bytes.Buffer)
+	err := binary.Write(buff, binary.BigEndian, num)
+	if err != nil {
+		log.Panic(err)
+
+	}
+
+	return buff.Bytes()
 }
