@@ -2,11 +2,10 @@ module github.com/varunvaliveti/P2PBlockchain
 
 go 1.18
 
-
-
 require (
 	github.com/dgraph-io/badger v1.5.4
 	github.com/mr-tron/base58 v1.1.0
+	github.com/vrecan/death/v3 v3.0.3
 	golang.org/x/crypto v0.33.0
 
 )
